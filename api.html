@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Youtube Data</title>
+</head>
+
+<body>
+  <!-- Retrieved data will be dumped here -->
+  <div class="dump"></div>
+  <div class="id1">
+    <iframe class="video w100 video_item" width="640" height="360" frameborder="0" src=""></iframe>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="https://apis.google.com/js/client.js?onload=onClientLoad" type="text/javascript"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+  <script type="text/javascript">
+    // This is  youtube API key
+   var APIKey = "AIzaSyBUk3vcxA5iXsgPtxMF2S1RJr04STFnNI0";
+  var q = "chicken curry";
+  //var q = "Buffelo Chicken Chowder"
+//https://www.youtube.com/watch?v=mcHddbql5pw
+//https://www.youtube.com/results?search_query=chicken+vindaloo+
+
+   //var request = 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&order=viewCount&publishedAfter=2016-01-01T00%3A00%3A00Z&q=teaser%7Ctrailer&type=video&videoCaption=any&videoCategoryId=24&videoEmbeddable=true&key=' + APIKey;
+   //var request = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=2&order=viewCount&search_query=" + search + "&key=" + APIKey;
+   //var request = "https://www.googleapis.com/youtube/v3/videos?part=snippet&maxResults=2&order=viewCount&videoCategoryId=0&search_query=" + search + "&key=" + APIKey;
+   var request = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + q +"order=date&key="+APIKey;
+   console.log(request);
+  
+    $.ajax({
+        url: request,
+        method: "GET"
+    }).then(function(response) {
+        //do stuff with data, such as display it somewhere
+            console.log(response);
+            //$(".dump").text(JSON.stringify(response));
+            //$(".id1").text(response.kind);
+            //youtube.com/watch?v=[item.id.videoId]. 
+            //var html = "";
+            
+            var url_new = "https://www.youtube.com/embed/"+response.items[1].id.videoId;
+            console.log(url_new);
+            console.log(response.kind);
+            console.log(response.etag);
+            console.log("Items=="+response.items[1].kind);
+            console.log(response.items[1].etag);
+            console.log("VideoId== "+response.items[1].id.channelId);
+            console.log("Snippet== "+response.items[1].snippet.title);            
+            $(".dump").text(url_new);    
+            //<iframe width="560" height="315" src="https://www.youtube.com/embed/cS1KWv0das8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>        
+            $(".id1").html("<iframe width='640' height='360' src='" + url_new + "' frameborder='0' allowfullscreen></iframe>");
+        });
+		
+  </script>
+</body>
+
+</html>
